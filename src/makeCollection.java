@@ -39,8 +39,7 @@ public class makeCollection {
                 doc.setAttribute("id", String.valueOf(id));
                 title.setTextContent(document.title());
                 body.setTextContent(document.body().text());
-//                    title.appendChild(new_document.createTextNode(document.title()));
-//                    body.appendChild(new_document.createTextNode(document.body().text()));
+
                 doc.appendChild(title);
                 doc.appendChild(body);
                 docs.appendChild(doc);
@@ -75,7 +74,7 @@ public class makeCollection {
             transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes"); //doc.setXmlStandalone(true); 했을때 붙어서 출력되는부분 개행
 
             DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(new FileOutputStream(new File("./result/collection.xml")));
+            StreamResult result = new StreamResult(new FileOutputStream(new File("./collection.xml")));
 
             transformer.transform(source, result);
             return true;

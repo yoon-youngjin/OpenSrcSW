@@ -1,38 +1,35 @@
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.io.File;
-import java.io.IOException;
 
 public class kuir {
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException, SAXException, ClassNotFoundException {
-
+    public static void main(String[] args) {
 //        if(args.length != 2)
 //            throw new RuntimeException("2개의 인자를 넣어주세요");
-//        String command = args[0];
-//        String path = args[1];
-        String command = "-o";
-        String path = "./result/index.xml";
+        String command = args[0];
+        String path = args[1];
+//        String command = "-o";
+//        String path = "./index.xml";
+        File file = new File(path);
 
-        if (command.equals("-c")) {
-            File path1 = new File(path);
-            File[] fileList = path1.listFiles();
-            makeCollection mc = new makeCollection();
-            System.out.println(mc.mkCollection(fileList)? "Success: *.html -> collection.xml" : "Fail: *.html -> collection.xml");
+        switch (command) {
+
+            case "-c" :
+                File[] fileList = file.listFiles();
+                makeCollection mc = new makeCollection();
+                System.out.println(mc.mkCollection(fileList) ? "Success: *.html -> collection.xml" : "Fail: *.html -> collection.xml");
+                break;
+            case "-k":
+                makeKeyword mk = new makeKeyword();
+                System.out.println(mk.createCollection(file) ? "Success: collection.xml -> index.xml" : "Fail: collection.xml -> index.xml");
+                break;
+            case "-o":
+                indexer indexer = new indexer();
+                System.out.println(indexer.makeIndex(file) ? "Success: index.xml -> index.post" : "Fail: index.xml -> index.post");
+//            indexer.readIndex();
+                break;
+
         }
-        else if(command.equals("-k")) {
-            File collection = new File(path);
-            makeKeyword mk = new makeKeyword();
-            System.out.println(mk.createCollection(collection)?  "Success: collection.xml -> index.xml" : "Fail: collection.xml -> index.xml");
-        }
-        else if(command.equals("-o")) {
-            File index = new File(path);
-            indexer indexer = new indexer();
-//            indexer.makeIndex(index);
-            indexer.readIndex();
-        }
+
     }
 }
 

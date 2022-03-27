@@ -1,5 +1,4 @@
-import org.jsoup.Jsoup;
-import org.jsoup.select.Elements;
+
 import org.snu.ids.kkma.index.Keyword;
 import org.snu.ids.kkma.index.KeywordExtractor;
 import org.snu.ids.kkma.index.KeywordList;
@@ -81,7 +80,7 @@ public class makeKeyword {
             transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes"); //doc.setXmlStandalone(true); 했을때 붙어서 출력되는부분 개행
 
             DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(new FileOutputStream(new File("./result/index.xml")));
+            StreamResult result = new StreamResult(new FileOutputStream(new File("./index.xml")));
 
             transformer.transform(source, result);
             return true;
