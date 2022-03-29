@@ -11,9 +11,26 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 4주차 실습 코드
+ *
+ * index.xml 파일을 읽어 들여 index.post 파일을 생성하시오.
+ * index.post: 아래와 같은 역파일(inverted-file)-형식의 hashmap
+ * - 키워드 -> [문서 아이디, 가중치]+
+ * - 예) 검색 -> 1 0.8 5 0.2 10 0.7
+ *
+ * input : index.xml
+ * output : index.post
+ */
 public class indexer {
 
     static Double count = 0D; // 총 doc 개수
+    private String input_file;
+    private String output_flie = "./index.post";
+
+    public indexer(String path) {
+        this.input_file = path;
+    }
 
     public class Item { // 0 0.0 1 0.0 2 0.0 3 0.0 4 0.0
 
@@ -34,15 +51,18 @@ public class indexer {
         }
     }
 
-    public boolean makeIndex(File file) {
+    public boolean makeIndex() {
 
         HashMap<String, String> result = new HashMap<>();
 
         try {
+
+            File index = new File(input_file);
+
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = docFactory.newDocumentBuilder();
 
-            Document document = builder.parse(file);
+            Document document = builder.parse(index);
             NodeList nodeList = document.getElementsByTagName("doc");
 
             count = Double.valueOf(nodeList.getLength());
@@ -101,7 +121,7 @@ public class indexer {
             return false;
         }
 
-        try (FileOutputStream fileOutputStream = new FileOutputStream("./index.post")) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(output_flie)) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(result);
 

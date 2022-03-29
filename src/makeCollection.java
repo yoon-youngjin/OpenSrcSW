@@ -13,14 +13,32 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * 2주차 실습 코드
+ *
+ * 주어진 5개의 html 문서를 전처리하여 하나의 xml 파일을 생성하세요.
+ *
+ * input : data 폴더의 html 파일들
+ * output : collection.xml
+ */
 public class makeCollection {
+
+    private String data_path;
+    private String output_flie = "./collection.xml";
+
+    public makeCollection(String path) {
+        this.data_path = path;
+    }
 
     /**
      * Document 생성
      */
-    public boolean mkCollection(File[] fileList) {
+    public boolean mkCollection() {
         int id = 0;
         try {
+
+            File[] fileList = new File(data_path).listFiles();
+
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = dbf.newDocumentBuilder();
             Document new_document = documentBuilder.newDocument();
@@ -74,7 +92,7 @@ public class makeCollection {
             transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes"); //doc.setXmlStandalone(true); 했을때 붙어서 출력되는부분 개행
 
             DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(new FileOutputStream(new File("./collection.xml")));
+            StreamResult result = new StreamResult(new FileOutputStream(new File(output_flie)));
 
             transformer.transform(source, result);
             return true;

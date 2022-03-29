@@ -19,13 +19,33 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * 3주차 실습 코드
+ *
+ * kkma 형태소 분석기를 이용하여 index.xml 파일을 생성하세요.
+ *
+ * index.xml 파일 형식은 아래와 같습니다.
+ * (키워드1):(키워드1에 대한 빈도수)#(키워드2):(키워드2에 대한 빈도수)#(키워드3):(키워드3에 대한 빈도수) ...
+ * e.g., 라면:13#밀가루:4#달걀:1 ...
+ *
+ * input : collection.xml
+ * output : index.xml
+ */
 public class makeKeyword {
+
+    private String input_file;
+    private String output_flie = "./index.xml";
+
+    public makeKeyword(String path) {
+        this.input_file = path;
+    }
 
     /**
      * DocumentBuilderFactory를 통한 xml파싱
      */
-    public boolean createCollection(File collection) {
+    public boolean createCollection() {
         try {
+            File collection = new File(input_file);
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -80,7 +100,7 @@ public class makeKeyword {
             transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes"); //doc.setXmlStandalone(true); 했을때 붙어서 출력되는부분 개행
 
             DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(new FileOutputStream(new File("./index.xml")));
+            StreamResult result = new StreamResult(new FileOutputStream(new File(output_flie)));
 
             transformer.transform(source, result);
             return true;
