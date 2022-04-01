@@ -5,14 +5,14 @@ public class kuir {
     public static void main(String[] args) {
 //        if(args.length != 2)
 //            throw new RuntimeException("2개의 인자를 넣어주세요");
-//        String command = args[0];
-//        String path = args[1];
+        String command = args[0];
+        String path = args[1];
 //        String q = args[2];
 //        String query = args[3];
-        String command = "-s";
-        String path = "./index.post";
-        String q = "-q";
-        String query = "라면에는 면, 분만 스프가 있다.";
+//        String command = "-s";
+//        String path = "./index.post";
+//        String q = "-q";
+//        String query = "라면에는 면, 분만 스프가 있다.";
 
         switch (command) {
             case "-c":
@@ -29,8 +29,8 @@ public class kuir {
 //                indexer.readIndex();
                 break;
             case "-s":
-                searcher searcher = new searcher(path, query);
-                searcher.Searcher();
+//                searcher searcher = new searcher(path, query);
+//                searcher.Searcher();
 //                searcher
 
 
