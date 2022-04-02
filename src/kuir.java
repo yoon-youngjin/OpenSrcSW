@@ -1,15 +1,18 @@
-import java.io.File;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 public class kuir {
 
-    public static void main(String[] args) {
-//        if(args.length != 2)
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+//        if(args.length < 2)
 //            throw new RuntimeException("2개의 인자를 넣어주세요");
         String command = args[0];
         String path = args[1];
-//        String q = args[2];
-//        String query = args[3];
-//        String command = "-s";
+        String q = args[2];
+        String query = args[3];
+//        String command = args[1];
 //        String path = "./index.post";
 //        String q = "-q";
 //        String query = "라면에는 면, 분만 스프가 있다.";
@@ -29,10 +32,8 @@ public class kuir {
 //                indexer.readIndex();
                 break;
             case "-s":
-//                searcher searcher = new searcher(path, query);
-//                searcher.Searcher();
-//                searcher
-
+                searcher searcher = new searcher(path, query);
+                searcher.CalcSim();
 
         }
 
