@@ -6,9 +6,20 @@
   <img src="https://user-images.githubusercontent.com/83503188/160270177-0aee789e-f884-4c9b-aa3c-653425cab33e.png" width="500px" />
 </p>
 
+------------
+
+### 5 주차 결과물
+
+![image](https://user-images.githubusercontent.com/83503188/161425751-7dab9a52-68f8-4c05-baad-ab20411bc263.png)
+
+![image](https://user-images.githubusercontent.com/83503188/161425771-8a30b4cb-7ac2-459e-b117-e804d5ecceac.png)
+
+------------
+
 **kuir.java**가 프로젝트의 메인 소스 코드로 사용되고,
 
 주차별로 생성된 **makeCollection.java**, **makeKeyword.java** 파일을 메인 함수의 인자값(String[] args)에 따라 객체를 생성하고 함수를 실행합니다.
+
 
 ## 파일 구조
 
