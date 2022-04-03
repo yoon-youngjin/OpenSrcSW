@@ -2,6 +2,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.List;
 
 public class kuir {
 
@@ -12,10 +13,7 @@ public class kuir {
         String path = args[1];
         String q = args[2];
         String query = args[3];
-//        String command = args[1];
-//        String path = "./index.post";
-//        String q = "-q";
-//        String query = "라면에는 면, 분만 스프가 있다.";
+
 
         switch (command) {
             case "-c":
@@ -33,8 +31,13 @@ public class kuir {
                 break;
             case "-s":
                 searcher searcher = new searcher(path, query);
-                searcher.CalcSim();
-
+                List<String> result = searcher.CalcSim();
+                if (result == null)
+                    System.out.println("Fail");
+                else {
+                    result.stream().forEach(System.out::println);
+                }
+                break;
         }
 
     }

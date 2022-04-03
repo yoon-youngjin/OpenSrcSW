@@ -9,11 +9,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class searcher {
 
     private String path;
     private String query;
+    private static int doc_count;
 
     HashMap<String, String> idxHashMap;
 
@@ -34,7 +36,12 @@ public class searcher {
         }
     }
 
-    public void CalcSim() throws ParserConfigurationException, IOException, SAXException {
+    public List<String> CalcSim()  {
+
+        if (idxHashMap == null) {
+            return null;
+        }
+
         KeywordExtractor ke = new KeywordExtractor();
         KeywordList kl = ke.extractKeyword(query, true);
         /**
@@ -68,32 +75,28 @@ public class searcher {
          * 예) 1 -> 20.92, 8.05, 0.0, 4.83
          */
         Map<String, List<Double>> doc_weight = new HashMap<>();
-
+        for (int i = 0; i < doc_count; i++) {
+            doc_weight.put(String.valueOf(i), new ArrayList<>());
+        }
         /**
          * 형태 분석기를 통해 나온 형태소의 weight를 모으는 리스트
          * 1 1 1 1
          */
         List<Double> query_weight = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++) {
-            doc_weight.put(String.valueOf(i), new ArrayList<>());
-        }
-
         for (Keyword keyword : kl) {
 
             query_weight.add(Double.valueOf((keyword.getCnt())));
 
             String tmp = idxHashMap.get(keyword.getString());
-            if (tmp == null) {
-                tmp = "0 0.0 1 0.0 2 0.0 3 0.0 4 0.0";
-            }
-            String[] s1 = tmp.split(" ");
 
-            for (int i = 0; i < s1.length; i = i + 2) {
-                List<Double> weights = doc_weight.get(s1[i]);
-                weights.add(Double.parseDouble(s1[i + 1]));
+            if (tmp != null) {
+                String[] s1 = tmp.split(" ");
+                for (int i = 0; i < s1.length; i = i + 2) {
+                    List<Double> weights = doc_weight.get(s1[i]);
+                    weights.add(Double.parseDouble(s1[i + 1]));
+                }
             }
-
         }
 
         List<Result> result = new ArrayList<>();
@@ -108,74 +111,87 @@ public class searcher {
             result.add(new Result(i, sum));
         }
 
-        Collections.sort(result, new Comparator<Result>() {
+
+        List<Result> collect = result.stream().sorted(new Comparator<Result>() {
             @Override
             public int compare(Result o1, Result o2) {
                 return (int) (o2.weight - o1.weight);
             }
-        });
+        }).filter(
+                result1 -> result1.weight !=0
+        ).collect(Collectors.toList());
+
 
         List<Result> sort_result = new ArrayList<>();
-
-        for (Result result1 : result) {
-
+        for (Result result1 : collect) {
             if (sort_result.size() == 3)
                 break;
-
             sort_result.add(result1);
         }
 
-
-        showTitle(sort_result);
+        return showTitle(sort_result);
     }
 
-    private void showTitle(List<Result> result) throws ParserConfigurationException, IOException, SAXException {
+    private List<String> showTitle(List<Result> result)  {
 
-        File collection = new File("./collection.xml");
+        List<String> return_result = new ArrayList<>();
 
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document document = db.parse(collection);
-        document.setXmlStandalone(true);
+        try {
+            File collection = new File("./collection.xml");
 
-        NodeList nodeList = document.getElementsByTagName("doc");
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document document = db.parse(collection);
+            document.setXmlStandalone(true);
 
-        for (int i = 0; i < result.size(); i++) {
-            for (int j = 0; j < nodeList.getLength(); j++) {
+            NodeList nodeList = document.getElementsByTagName("doc");
 
-                Node node = nodeList.item(j);
-                NamedNodeMap attributes = node.getAttributes();
+            for (int i = 0; i < result.size(); i++) {
+                for (int j = 0; j < nodeList.getLength(); j++) {
 
-                if (Integer.parseInt(attributes.getNamedItem("id").getTextContent()) == result.get(i).idx) {
-                    Element eElement = (Element) node;
-//                    System.out.println(result.get(i).weight);
-                    System.out.println(eElement.getElementsByTagName("title").item(0).getTextContent());
+                    Node node = nodeList.item(j);
+                    NamedNodeMap attributes = node.getAttributes();
+
+                    if (Integer.parseInt(attributes.getNamedItem("id").getTextContent()) == result.get(i).idx) {
+                        Element eElement = (Element) node;
+                        return_result.add(eElement.getElementsByTagName("title").item(0).getTextContent());
+                    }
                 }
             }
-        }
-
-
-    }
-
-
-    public HashMap<String, String> readIndex() {
-        try (FileInputStream fileInputStream = new FileInputStream("./index.post")
-        ) {
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            Object object = objectInputStream.readObject();
-
-            return (HashMap) object;
-//            for (String key : hashMap.keySet()) {
-//                String value = hashMap.get(key);
-//                System.out.println(key + " -> " + value);
-//            }
-        } catch (FileNotFoundException e) {
+            return return_result;
+        } catch (ParserConfigurationException e) {
             e.printStackTrace();
             return null;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
 
+        } catch (SAXException e) {
+            e.printStackTrace();
+            return null;
+
+        }
+
+    }
+
+    public HashMap<String, String> readIndex() {
+        try (FileInputStream fileInputStream = new FileInputStream("./index.post")
+        ) {
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            Object object = objectInputStream.readObject();
+            HashMap<String, String> hashMap = (HashMap<String, String>) object;
+            for (String key : hashMap.keySet()) {
+                doc_count = hashMap.get(key).split(" ").length / 2;
+                break;
+            }
+            return (HashMap) object;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return null;
