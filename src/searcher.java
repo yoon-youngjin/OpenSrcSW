@@ -14,14 +14,12 @@ import java.util.stream.Collectors;
 public class searcher {
 
     private String path;
-    private String query;
     private static int doc_count;
 
     HashMap<String, String> idxHashMap;
 
-    public searcher(String path, String query) {
+    public searcher(String path) {
         this.path = path;
-        this.query = query;
         idxHashMap = readIndex();
     }
 
@@ -36,7 +34,7 @@ public class searcher {
         }
     }
 
-    public List<String> CalcSim()  {
+    public List<String> CalcSim(String query)  {
 
         if (idxHashMap == null) {
             return null;
@@ -111,16 +109,21 @@ public class searcher {
             result.add(new Result(i, sum));
         }
 
-
+        /**
+         * id값 순서대로 정렬
+         */
         List<Result> collect = result.stream().sorted(new Comparator<Result>() {
             @Override
             public int compare(Result o1, Result o2) {
-                return (int) (o2.weight - o1.weight);
+                return o1.idx - o2.idx;
             }
         }).filter(
                 result1 -> result1.weight !=0
         ).collect(Collectors.toList());
 
+//        for (Result result1 : collect) {
+//            System.out.println(result1.idx + " " + result1.weight);
+//        }
 
         List<Result> sort_result = new ArrayList<>();
         for (Result result1 : collect) {
@@ -137,7 +140,7 @@ public class searcher {
         List<String> return_result = new ArrayList<>();
 
         try {
-            File collection = new File("./collection.xml");
+            File collection = new File("./index.xml");
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
