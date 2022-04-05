@@ -30,12 +30,16 @@ public class kuir {
 //                indexer.readIndex();
                 break;
             case "-s":
-                searcher searcher = new searcher(path, query);
-                List<String> result = searcher.CalcSim();
+                searcher searcher = new searcher(path);
+                List<String> result = searcher.CalcSim(query);
                 if (result == null)
                     System.out.println("Fail");
                 else {
-                    result.stream().forEach(System.out::println);
+                    if (result.size() == 0)
+                        System.out.println("검색된 문서가 없습니다.");
+                    else {
+                        result.stream().forEach(System.out::println);
+                    }
                 }
                 break;
         }
