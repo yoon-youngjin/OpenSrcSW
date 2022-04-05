@@ -25,7 +25,6 @@
 
 ```bash
 ├── README.md
-├── bin
 ├── jars
 └── src
     ├── kuir.java
