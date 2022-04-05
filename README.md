@@ -26,13 +26,11 @@
 ```bash
 ├── README.md
 ├── bin
-│   └── scripts
 ├── jars
 └── src
-    └── scripts
-        ├── kuir.java
-        ├── makeCollection.java
-        └── makeKeyword.java
+    ├── kuir.java
+    ├── makeCollection.java
+    └── makeKeyword.java
 ``` 
 
 ## 인코딩
