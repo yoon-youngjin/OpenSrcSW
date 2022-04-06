@@ -77,3 +77,5 @@ ex) `java -cp ./jars/jsoup-1.13.1.jar:./jars/kkma-2.1.jar:bin scripts.kuir -c da
 `java -cp (외부 jar 파일 이름 1);(외부 jar 파일 이름 2);,,,,;bin scripts.kuir (args 1) (args 2) ,,, (args n)`
 
 ex) `java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin scripts.kuir -c data`
+
+makeCollection -> java -cp ./jars/jsoup-1.13.1.jar;bin kuir -c ./data
