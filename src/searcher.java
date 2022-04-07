@@ -34,7 +34,7 @@ public class searcher {
         }
     }
 
-    public List<String> InnerProduct(String query)  {
+    public List<String> CalcSim(String query)  {
 
         if (idxHashMap == null) {
             return null;
@@ -141,9 +141,6 @@ public class searcher {
 //            System.out.println(i +" " + sum);
             result.add(new Result(i, sum));
         }
-
-
-
 
         /**
          * id값 순서대로 정렬
