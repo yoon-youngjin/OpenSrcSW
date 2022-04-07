@@ -78,4 +78,10 @@ ex) `java -cp ./jars/jsoup-1.13.1.jar:./jars/kkma-2.1.jar:bin scripts.kuir -c da
 
 ex) `java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin scripts.kuir -c data`
 
-makeCollection -> java -cp ./jars/jsoup-1.13.1.jar;bin kuir -c ./data
+## makeCollection
+- compile: javac -cp ./jars/jsoup-1.13.1.jar src/*.java -d bin
+- run: java -cp ./jars/jsoup-1.13.1.jar;bin kuir -c ./data
+
+## makeKeyword 
+- compile: javac -cp ./jars/kkma-2.1.jar;./jars/jsoup-1.13.1.jar src/*.java -d bin
+- run: java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin kuir -i ./collection.xml
