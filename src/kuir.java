@@ -31,7 +31,7 @@ public class kuir {
                 break;
             case "-s":
                 searcher searcher = new searcher(path);
-                List<String> result = searcher.CalcSim(query);
+                List<String> result = searcher.InnerProduct(query);
                 if (result == null)
                     System.out.println("Fail");
                 else {

@@ -34,7 +34,7 @@ public class searcher {
         }
     }
 
-    public List<String> CalcSim(String query)  {
+    public List<String> InnerProduct(String query)  {
 
         if (idxHashMap == null) {
             return null;
