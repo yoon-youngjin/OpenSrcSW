@@ -73,6 +73,7 @@ public class searcher {
          * 예) 1 -> 20.92, 8.05, 0.0, 4.83
          */
         Map<String, List<Double>> doc_weight = new HashMap<>();
+        Double weight_0 = 0d;
         for (int i = 0; i < doc_count; i++) {
             doc_weight.put(String.valueOf(i), new ArrayList<>());
         }
@@ -86,6 +87,8 @@ public class searcher {
 
             query_weight.add(Double.valueOf((keyword.getCnt())));
 
+            weight_0 += Double.valueOf((keyword.getCnt())) * Double.valueOf((keyword.getCnt()));
+
             String tmp = idxHashMap.get(keyword.getString());
 
             if (tmp != null) {
@@ -97,6 +100,31 @@ public class searcher {
             }
         }
 
+//        System.out.println(weight_0);
+        weight_0 = Math.sqrt(weight_0);
+
+//        System.out.println(weight_0);
+
+        Set<String> strings = doc_weight.keySet();
+        List<Double> weight_1 = new ArrayList<>();
+
+
+//        for (int i = 0; i < 5; i++) {
+//            System.out.println(doc_weight.get(String.valueOf(i)));
+//        }
+
+        for (String string : strings) {
+            List<Double> doubles = doc_weight.get(string);
+            Double sum = 0d;
+            for (Double aDouble : doubles) {
+                sum += aDouble * aDouble;
+            }
+            weight_1.add(Math.sqrt(sum));
+        }
+
+//        for (int i = 0; i < 5; i++) {
+//            System.out.println(weight_1.get(i));
+//        }
         List<Result> result = new ArrayList<>();
 
         for (int i = 0; i < kl.size(); i++) {
@@ -104,10 +132,18 @@ public class searcher {
             List<Double> doubles = doc_weight.get(String.valueOf(i));
 
             for (int j = 0; j < doubles.size(); j++) {
-                sum += doubles.get(j) * query_weight.get(j);
+                sum += (doubles.get(j) * query_weight.get(j));
             }
+            sum = sum / (weight_0 * weight_1.get(i));
+            if (sum.isNaN()) {
+                sum = 0.0;
+            }
+//            System.out.println(i +" " + sum);
             result.add(new Result(i, sum));
         }
+
+
+
 
         /**
          * id값 순서대로 정렬
