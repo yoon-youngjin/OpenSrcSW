@@ -86,4 +86,8 @@ ex) `java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin scripts.kuir -c da
 
 ## makeKeyword 
 - compile: javac -cp ./jars/kkma-2.1.jar;./jars/jsoup-1.13.1.jar src/*.java -d bin
-- run: java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin kuir -i ./collection.xml
+- run: java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin kuir -k ./collection.xml
+
+## indexer 
+- compile: javac -Xlint -cp ./jars/kkma-2.1.jar;./jars/jsoup-1.13.1.jar src/*.java -d bin
+- run: java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin kuir -i ./index.xml
