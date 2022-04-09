@@ -56,7 +56,6 @@ public class indexer {
         HashMap<String, String> result = new HashMap<>();
 
         try {
-
             File index = new File(input_file);
 
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -103,7 +102,8 @@ public class indexer {
                             double df = (double) valueSet.length;
                             double n = count;
                             double weight = tf * (Math.log(n / df));
-                            item.map.put(Integer.parseInt(s.substring(0, 1)), String.format("%.2f", weight)); // 0 0.00 1 0.00 2 0.00 3 1.61 4 0.00
+                            int id = Integer.parseInt(s.substring(0, 1));
+                            item.map.put(id, String.format("%.2f", weight)); // 0 0.00 1 0.00 2 0.00 3 1.61 4 0.00
                         }
                         result.put(key, item.toString());
                     }

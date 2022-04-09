@@ -44,10 +44,10 @@ public class searcher {
         KeywordList kl = ke.extractKeyword(query, true);
         /**
          * Query: 라면에는 면, 분말, 스프가 있다.
-         * -> K1 = 라면, w1 = 1
-         * -> K2 = 면, w2 = 1
-         * -> K3 = 분말, w3 = 1
-         * -> K4 = 스프, w4 = 1
+         * -> K1 = 라면, wq_1 = 1
+         * -> K2 = 면, wq_2 = 1
+         * -> K3 = 분말, wq_3 = 1
+         * -> K4 = 스프, wq_4 = 1
          *
          *
          * index.post
@@ -61,7 +61,7 @@ public class searcher {
          *      (id0 = 0, w1 = 0.0) (id1 = 1, w1 = 4.83) (id2 = 2, w2 = 0.0) (id3 = 3, w3 = 0.0) (id4 = 4, w4 = 0.0)
          *
          *
-         * Q_id0 = w1 * 라면(id0_w1) + w2 * 면(id0_w1) + w3 * 분말(id0_w1) + w4 * 스프(id0_w1) -> 0번 document
+         * Q_id0 = wq_1 * 라면(id0_w1) + wq_2 * 면(id0_w1) + wq_3 * 분말(id0_w1) + wq_4 * 스프(id0_w1) -> 0번 document
          *
          *
          */
