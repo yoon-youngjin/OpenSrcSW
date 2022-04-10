@@ -81,17 +81,17 @@ ex) `java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin scripts.kuir -c da
 ---
 
 ## makeCollection
-- [x] compile: javac -cp ./jars/jsoup-1.13.1.jar src/*.java -d bin
-- [x] run: java -cp ./jars/jsoup-1.13.1.jar;bin kuir -c ./data
+- [x] `compile: javac -cp ./jars/jsoup-1.13.1.jar src/*.java -d bin`
+- [x] `run: java -cp ./jars/jsoup-1.13.1.jar;bin kuir -c ./data`
 
 ## makeKeyword 
-- [x] compile: javac -cp ./jars/kkma-2.1.jar;./jars/jsoup-1.13.1.jar src/*.java -d bin
-- [x] run: java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin kuir -k ./collection.xml
+- [x] `compile: javac -cp ./jars/kkma-2.1.jar;./jars/jsoup-1.13.1.jar src/*.java -d bin`
+- [x] `run: java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin kuir -k ./collection.xml`
 
 ## indexer 
-- [x] compile: javac -Xlint -cp ./jars/kkma-2.1.jar;./jars/jsoup-1.13.1.jar src/*.java -d bin
-- [x] run: java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin kuir -i ./index.xml
+- [x] `compile: javac -Xlint -cp ./jars/kkma-2.1.jar;./jars/jsoup-1.13.1.jar src/*.java -d bin`
+- [x] `run: java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin kuir -i ./index.xml`
 
 ## searcher
-- [x] compile: javac -Xlint -cp ./jars/kkma-2.1.jar;./jars/jsoup-1.13.1.jar src/*.java -d bin
-- [x] run: java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin kuir -s ./index.post -q "라면에는 분말 스프 아이스크림이 들어간다."
+- [x] `compile: javac -Xlint -cp ./jars/kkma-2.1.jar;./jars/jsoup-1.13.1.jar src/*.java -d bin`
+- [x] `run: java -cp ./jars/jsoup-1.13.1.jar;./jars/kkma-2.1.jar;bin kuir -s ./index.post -q "라면에는 분말 스프 아이스크림이 들어간다."`
