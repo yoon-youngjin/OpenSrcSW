@@ -1,18 +1,12 @@
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.util.List;
 
 public class kuir {
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+    public static void main(String[] args)  {
 //        if(args.length < 2)
 //            throw new RuntimeException("2개의 인자를 넣어주세요");
         String command = args[0];
         String path = args[1];
-        String q = args[2];
-        String query = args[3];
 
 
         switch (command) {
@@ -30,20 +24,22 @@ public class kuir {
 //                indexer.readIndex();
                 break;
             case "-s":
-                searcher searcher = new searcher(path);
-                List<String> result = searcher.CalcSim(query);
-                if (result == null)
-                    System.out.println("Fail");
-                else {
-                    if (result.size() == 0)
-                        System.out.println("검색된 문서가 없습니다.");
+                if (args[2].equals("-q")) {
+                    String query = args[3];
+                    searcher searcher = new searcher(path);
+                    List<String> result = searcher.CalcSim(query);
+                    if (result == null)
+                        System.out.println("Fail");
                     else {
-                        result.stream().forEach(System.out::println);
+                        if (result.size() == 0)
+                            System.out.println("검색된 문서가 없습니다.");
+                        else {
+                            result.stream().forEach(System.out::println);
+                        }
                     }
                 }
                 break;
         }
-
     }
 }
 
