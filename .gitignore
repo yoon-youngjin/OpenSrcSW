@@ -17,6 +17,8 @@ data/
 
 result/
 
+.gitignore
+
 *.iml
 
 doc/
