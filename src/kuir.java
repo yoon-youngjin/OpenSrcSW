@@ -20,8 +20,8 @@ public class kuir {
                 break;
             case "-i":
                 indexer indexer = new indexer(path);
-                System.out.println(indexer.makeIndex() ? "Success: index.xml -> index.post" : "Fail: index.xml -> index.post");
-//                indexer.readIndex();
+//                System.out.println(indexer.makeIndex() ? "Success: index.xml -> index.post" : "Fail: index.xml -> index.post");
+                indexer.readIndex();
                 break;
             case "-s":
                 if (args[2].equals("-q")) {

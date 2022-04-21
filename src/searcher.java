@@ -114,6 +114,7 @@ public class searcher {
             }
             weight_1.add(Math.sqrt(sum));
         }
+
         List<Result> result = new ArrayList<>();
 
         for (int i = 0; i < doc_weight.size(); i++) {
