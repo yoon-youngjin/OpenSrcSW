@@ -11,8 +11,6 @@ public class kuir {
 //            throw new RuntimeException("2개의 인자를 넣어주세요");
         String command = args[0];
         String path = args[1];
-        String q = args[2];
-        String query = args[3];
 
 
         switch (command) {
@@ -26,24 +24,30 @@ public class kuir {
                 break;
             case "-i":
                 indexer indexer = new indexer(path);
-                System.out.println(indexer.makeIndex() ? "Success: index.xml -> index.post" : "Fail: index.xml -> index.post");
-//                indexer.readIndex();
+//                System.out.println(indexer.makeIndex() ? "Success: index.xml -> index.post" : "Fail: index.xml -> index.post");
+                indexer.readIndex();
                 break;
             case "-s":
-                searcher searcher = new searcher(path);
-                List<String> result = searcher.CalcSim(query);
-                if (result == null)
-                    System.out.println("Fail");
-                else {
-                    if (result.size() == 0)
-                        System.out.println("검색된 문서가 없습니다.");
+                if (args[2].equals("-q")) {
+                    String query = args[3];
+                    searcher searcher = new searcher(path);
+                    List<String> result = searcher.CalcSim(query);
+                    if (result == null)
+                        System.out.println("Fail");
                     else {
-                        result.stream().forEach(System.out::println);
+                        if (result.size() == 0)
+                            System.out.println("검색된 문서가 없습니다.");
+                        else {
+                            result.stream().forEach(System.out::println);
+                        }
                     }
                 }
                 break;
+            case "-m" :
+                String query = args[3];
+                MidTerm mt = new MidTerm(path, query);
+                mt.showSnippet();
         }
-
     }
 }
 

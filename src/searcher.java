@@ -34,7 +34,7 @@ public class searcher {
         }
     }
 
-    public List<String> CalcSim(String query)  {
+    public List<String> CalcSim(String query) {
 
         if (idxHashMap == null) {
             return null;
@@ -44,10 +44,10 @@ public class searcher {
         KeywordList kl = ke.extractKeyword(query, true);
         /**
          * Query: 라면에는 면, 분말, 스프가 있다.
-         * -> K1 = 라면, w1 = 1
-         * -> K2 = 면, w2 = 1
-         * -> K3 = 분말, w3 = 1
-         * -> K4 = 스프, w4 = 1
+         * -> K1 = 라면, wq_1 = 1
+         * -> K2 = 면, wq_2 = 1
+         * -> K3 = 분말, wq_3 = 1
+         * -> K4 = 스프, wq_4 = 1
          *
          *
          * index.post
@@ -61,7 +61,7 @@ public class searcher {
          *      (id0 = 0, w1 = 0.0) (id1 = 1, w1 = 4.83) (id2 = 2, w2 = 0.0) (id3 = 3, w3 = 0.0) (id4 = 4, w4 = 0.0)
          *
          *
-         * Q_id0 = w1 * 라면(id0_w1) + w2 * 면(id0_w1) + w3 * 분말(id0_w1) + w4 * 스프(id0_w1) -> 0번 document
+         * Q_id0 = wq_1 * 라면(id0_w1) + wq_2 * 면(id0_w1) + wq_3 * 분말(id0_w1) + wq_4 * 스프(id0_w1) -> 0번 document
          *
          *
          */
@@ -87,7 +87,7 @@ public class searcher {
 
             query_weight.add(Double.valueOf((keyword.getCnt())));
 
-            weight_0 += Double.valueOf((keyword.getCnt())) * Double.valueOf((keyword.getCnt()));
+            weight_0 += Math.pow(Double.valueOf(keyword.getCnt()), 2);
 
             String tmp = idxHashMap.get(keyword.getString());
 
@@ -100,34 +100,24 @@ public class searcher {
             }
         }
 
-//        System.out.println(weight_0);
         weight_0 = Math.sqrt(weight_0);
 
-//        System.out.println(weight_0);
-
-        Set<String> strings = doc_weight.keySet();
+        Set<String> keySet = doc_weight.keySet(); // 0 1 2 3 4
         List<Double> weight_1 = new ArrayList<>();
 
 
-//        for (int i = 0; i < 5; i++) {
-//            System.out.println(doc_weight.get(String.valueOf(i)));
-//        }
-
-        for (String string : strings) {
-            List<Double> doubles = doc_weight.get(string);
+        for (String key : keySet) {
+            List<Double> doubles = doc_weight.get(key);
             Double sum = 0d;
             for (Double aDouble : doubles) {
-                sum += aDouble * aDouble;
+                sum += Math.pow(aDouble, 2);
             }
             weight_1.add(Math.sqrt(sum));
         }
 
-//        for (int i = 0; i < 5; i++) {
-//            System.out.println(weight_1.get(i));
-//        }
         List<Result> result = new ArrayList<>();
 
-        for (int i = 0; i < kl.size(); i++) {
+        for (int i = 0; i < doc_weight.size(); i++) {
             Double sum = 0.0;
             List<Double> doubles = doc_weight.get(String.valueOf(i));
 
@@ -138,7 +128,6 @@ public class searcher {
             if (sum.isNaN()) {
                 sum = 0.0;
             }
-//            System.out.println(i +" " + sum);
             result.add(new Result(i, sum));
         }
 
@@ -151,12 +140,8 @@ public class searcher {
                 return o1.idx - o2.idx;
             }
         }).filter(
-                result1 -> result1.weight !=0
+                result1 -> result1.weight != 0
         ).collect(Collectors.toList());
-
-//        for (Result result1 : collect) {
-//            System.out.println(result1.idx + " " + result1.weight);
-//        }
 
         List<Result> sort_result = new ArrayList<>();
         for (Result result1 : collect) {
@@ -168,7 +153,7 @@ public class searcher {
         return showTitle(sort_result);
     }
 
-    private List<String> showTitle(List<Result> result)  {
+    private List<String> showTitle(List<Result> result) {
 
         List<String> return_result = new ArrayList<>();
 
